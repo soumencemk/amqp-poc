@@ -14,14 +14,10 @@ import org.springframework.stereotype.Component;
 @Log4j2
 @RequiredArgsConstructor
 public class Consumer {
+    private final DMMCallbackProcessor dmmCallbackProcessor;
 
-    @RabbitListener(queues = "SV_QUEUE")
-    public void receiveMsg(Message message) {
-        int delayAmount = message.getMessageProperties().getHeader("delayAmount");
-        if (delayAmount > 0) {
-            CallBackDelayQueue.enQueue(message, delayAmount);
-        } else {
-            log.info("Processing DMM Callback without delay for -- " + message);
-        }
+    @RabbitListener(queues = "RESPONSE_QUEUE")
+    public void receiveMsg(Message message) throws Exception {
+        dmmCallbackProcessor.processDMMCallback(message);
     }
 }
