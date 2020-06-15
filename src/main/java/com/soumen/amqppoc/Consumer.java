@@ -15,13 +15,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class Consumer {
 
-    @RabbitListener(queues = "SV_QUEUE")
+    @RabbitListener(queues = "${rabbitmq.queue}")
     public void receiveMsg(Message message) {
-        int delayAmount = message.getMessageProperties().getHeader("delayAmount");
-        if (delayAmount > 0) {
-            CallBackDelayQueue.enQueue(message, delayAmount);
-        } else {
-            log.info("Processing DMM Callback without delay for -- " + message);
-        }
+        log.info("Processing DMM Callback for -- " + message);
     }
 }

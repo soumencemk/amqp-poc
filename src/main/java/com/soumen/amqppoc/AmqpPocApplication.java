@@ -27,7 +27,7 @@ public class AmqpPocApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Stream<String> stream = Stream.generate(() -> String.valueOf(new Random().nextInt(100000)));
+       /* Stream<String> stream = Stream.generate(() -> String.valueOf(new Random().nextInt(100000)));
         stream.forEach(s -> {
             publisher.publish(s);
             try {
@@ -35,22 +35,24 @@ public class AmqpPocApplication implements CommandLineRunner {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        });
+        });*/
+
+        publisher.publish("TEST - 1",5000);
     }
 
     @Bean(name = "rabbitConnectionFactory")
     public CachingConnectionFactory connectionFactoryNoAck() {
         log.info("Creating connection factory for rabbit");
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("kangaroo.rmq.cloudamqp.com");
-        factory.setUsername("gslhmfps");
-        factory.setPassword("hb8bVPB6UPuFMWcMym8xtgks6CvDpQtO");
-        factory.setVirtualHost("gslhmfps");
+        factory.setHost("bloodhound.rmq.cloudamqp.com");
+        factory.setUsername("hnsgcqkr");
+        factory.setPassword("L11sg3m23njLwZxc33WZhHgdwL3L2He_");
+        factory.setVirtualHost("hnsgcqkr");
 
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(factory);
-        connectionFactory.setAddresses("kangaroo.rmq.cloudamqp.com");
-        connectionFactory.setUsername("gslhmfps");
-        connectionFactory.setPassword("hb8bVPB6UPuFMWcMym8xtgks6CvDpQtO");
+        connectionFactory.setAddresses("bloodhound.rmq.cloudamqp.com");
+        connectionFactory.setUsername("hnsgcqkr");
+        connectionFactory.setPassword("L11sg3m23njLwZxc33WZhHgdwL3L2He_");
         return connectionFactory;
 
     }
