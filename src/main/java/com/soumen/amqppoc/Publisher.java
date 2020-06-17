@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.Random;
 
+import static com.soumen.amqppoc.AMQPConstants.RESPONSE_EXCHANGE;
+import static com.soumen.amqppoc.AMQPConstants.RESPONSE_ROUTING_KEY;
+
 /**
  * @author Soumen Karmakar
  * 20/05/2020
@@ -24,14 +27,14 @@ public class Publisher {
 
     public void publish(String msg) {
         Message message = formMessage(msg);
-        rabbitTemplate.convertAndSend(AMQPConstants.RESPONSE.getExchange(), AMQPConstants.RESPONSE.getRoutingKey(), message);
+        rabbitTemplate.convertAndSend(RESPONSE_EXCHANGE,RESPONSE_ROUTING_KEY, message);
     }
 
     private Message formMessage(String msg) {
         msg = msg + " :: " + new Date().toString();
         SimpleMessageConverter smc = new SimpleMessageConverter();
         MessageProperties msgProp = new MessageProperties();
-        msgProp.setHeader("timeToExecute", (long) r.nextInt(2000));
+        msgProp.setHeader("timeToExecute", System.currentTimeMillis() + (long) r.nextInt(2000));
         Message message = smc.toMessage(msg, msgProp);
         return message;
     }

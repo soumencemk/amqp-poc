@@ -4,24 +4,10 @@ package com.soumen.amqppoc;
  * @author Soumen Karmakar
  * 08/06/2020
  */
-public enum AMQPConstants {
+public interface AMQPConstants {
 
-    RESPONSE("RESPONSE_EXCHANGE", "resonse.routing.key");
-
-    private String exchange;
-    private String routingKey;
-
-    AMQPConstants(String exchange, String routingKey) {
-        this.exchange = exchange;
-        this.routingKey = routingKey;
-    }
-
-    public String getRoutingKey() {
-        return routingKey;
-    }
-
-    public String getExchange() {
-        return exchange;
-
-    }
+    String RESPONSE_QUEUE = "responseQueue";
+    String RESPONSE_EXCHANGE = "responseExchange";
+    String DELAY_QUEUE = RESPONSE_QUEUE + ".delay";
+    String RESPONSE_ROUTING_KEY = "response.routing.key";
 }
