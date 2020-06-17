@@ -4,7 +4,6 @@ import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -46,13 +45,13 @@ public class AmqpPocApplication implements CommandLineRunner {
     public CachingConnectionFactory connectionFactoryNoAck() {
         log.info("Creating connection factory for rabbit");
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setUsername("gslhmfps");
-        factory.setPassword("hb8bVPB6UPuFMWcMym8xtgks6CvDpQtO");
-        factory.setVirtualHost("gslhmfps");
+        factory.setUsername("hnsgcqkr");
+        factory.setPassword("L11sg3m23njLwZxc33WZhHgdwL3L2He_");
+        factory.setVirtualHost("hnsgcqkr");
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(factory);
-        connectionFactory.setAddresses("kangaroo.rmq.cloudamqp.com");
-        connectionFactory.setUsername("gslhmfps");
-        connectionFactory.setPassword("hb8bVPB6UPuFMWcMym8xtgks6CvDpQtO");
+        connectionFactory.setAddresses("bloodhound-01.rmq.cloudamqp.com");
+        connectionFactory.setUsername("hnsgcqkr");
+        connectionFactory.setPassword("L11sg3m23njLwZxc33WZhHgdwL3L2He_");
         return connectionFactory;
 
     }
