@@ -27,7 +27,7 @@ public class AmqpPocApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-       /* Stream<String> stream = Stream.generate(() -> String.valueOf(new Random().nextInt(100000)));
+        Stream<String> stream = Stream.generate(() -> String.valueOf(new Random().nextInt(100000)));
         stream.forEach(s -> {
             publisher.publish(s);
             try {
@@ -35,9 +35,8 @@ public class AmqpPocApplication implements CommandLineRunner {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        });*/
+        });
 
-        publisher.publish("TEST - 1",5000);
     }
 
     @Bean(name = "rabbitConnectionFactory")

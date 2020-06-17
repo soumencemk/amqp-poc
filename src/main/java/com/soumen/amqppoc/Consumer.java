@@ -2,7 +2,6 @@ package com.soumen.amqppoc;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class Consumer {
 
     @RabbitListener(queues = "${rabbitmq.queue}")
-    public void receiveMsg(Message message) {
+    public void receiveMsg(String message) {
         log.info("Processing DMM Callback for -- " + message);
     }
 }
