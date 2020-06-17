@@ -14,7 +14,6 @@ public class DMMCallbackProcessor {
     public void processDMMCallback(Message message) {
         processDMMCallback(message, false);
     }
-
     public void processDMMCallback(Message message, boolean isDelay) {
         if (isDelay) {
             log.info("DMM Callback With delay -- " + message.getMessageProperties().getHeader("delayAmount"));

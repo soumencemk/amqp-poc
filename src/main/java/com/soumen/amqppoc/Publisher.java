@@ -31,6 +31,7 @@ public class Publisher {
         msg = msg + " :: " + new Date().toString();
         SimpleMessageConverter smc = new SimpleMessageConverter();
         MessageProperties msgProp = new MessageProperties();
+        msgProp.setHeader("timeToExecute", (long) r.nextInt(2000));
         Message message = smc.toMessage(msg, msgProp);
         return message;
     }

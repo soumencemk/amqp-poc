@@ -6,8 +6,7 @@ package com.soumen.amqppoc;
  */
 public enum AMQPConstants {
 
-    RESPONSE("RESPONSE_EXCHANGE", "resonse.routing.key"),
-    DLX("DLX_EXCHANGE", "RESPONSE_EXCHANGE");
+    RESPONSE("RESPONSE_EXCHANGE", "resonse.routing.key");
 
     private String exchange;
     private String routingKey;

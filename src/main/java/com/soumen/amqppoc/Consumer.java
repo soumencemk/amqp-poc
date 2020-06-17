@@ -18,6 +18,11 @@ public class Consumer {
 
     @RabbitListener(queues = "RESPONSE_QUEUE")
     public void receiveMsg(Message message) throws Exception {
-        dmmCallbackProcessor.processDMMCallback(message);
+        long timeToExecute = (long) message.getMessageProperties().getHeader("timeToExecute");
+        if (System.currentTimeMillis() < timeToExecute) {
+            throw new Exception("Not your time, off you go..");
+        } else {
+            dmmCallbackProcessor.processDMMCallback(message);
+        }
     }
 }
