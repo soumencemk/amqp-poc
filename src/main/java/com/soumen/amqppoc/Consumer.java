@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class Consumer {
     private final DMMCallbackProcessor dmmCallbackProcessor;
 
-    @RabbitListener(queues = "RESPONSE_QUEUE")
+    @RabbitListener(queues = AMQPConstants.RESPONSE_QUEUE)
     public void receiveMsg(Message message) throws Exception {
         long timeToExecute = (long) message.getMessageProperties().getHeader("timeToExecute");
         if (System.currentTimeMillis() < timeToExecute) {
