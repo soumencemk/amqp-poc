@@ -1,57 +1,43 @@
 package com.soumen.amqppoc;
 
 import com.rabbitmq.client.ConnectionFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableAsync;
-
-import java.util.Random;
-import java.util.stream.Stream;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @Configuration
 @EnableAsync
+@RequiredArgsConstructor
 @Log4j2
-public class AmqpPocApplication implements CommandLineRunner {
-    @Autowired
-    private Publisher publisher;
+public class AmqpPocApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AmqpPocApplication.class, args);
-    }
-
-
-    @Override
-    public void run(String... args) {
-        Stream<String> stream = Stream.generate(() -> String.valueOf(new Random().nextInt(100000)));
-        stream.forEach(s -> {
-            publisher.publish(s);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     @Bean(name = "rabbitConnectionFactory")
     public CachingConnectionFactory connectionFactoryNoAck() {
         log.info("Creating connection factory for rabbit");
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setUsername("hnsgcqkr");
-        factory.setPassword("L11sg3m23njLwZxc33WZhHgdwL3L2He_");
-        factory.setVirtualHost("hnsgcqkr");
+        factory.setUsername("guest");
+        factory.setPassword("guest");
+        factory.setVirtualHost("/");
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(factory);
-        connectionFactory.setAddresses("bloodhound-01.rmq.cloudamqp.com");
-        connectionFactory.setUsername("hnsgcqkr");
-        connectionFactory.setPassword("L11sg3m23njLwZxc33WZhHgdwL3L2He_");
+        connectionFactory.setAddresses("localhost");
+        connectionFactory.setUsername("guest");
+        connectionFactory.setPassword("guest");
         return connectionFactory;
 
     }
@@ -60,6 +46,20 @@ public class AmqpPocApplication implements CommandLineRunner {
     RabbitTemplate getRabbitTemplate(CachingConnectionFactory connectionFactory) {
         return new RabbitTemplate(connectionFactory);
     }
+}
+
+@RestController
+@RequiredArgsConstructor
+class Controller {
+
+    private final Publisher publisher;
+
+    @GetMapping("/publish/{msg}/{delay}")
+    public ResponseEntity<String> sendMessage(@PathVariable String msg, @PathVariable int delay) {
+        publisher.publish(msg, delay);
+        return new ResponseEntity(msg, HttpStatus.OK);
+    }
+
 }
 
 

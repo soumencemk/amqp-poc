@@ -14,30 +14,30 @@ import static com.soumen.amqppoc.AMQPConstants.*;
 public class QueueNExchangeConfigs {
 
     @Bean
-    DirectExchange exchange() {
+    DirectExchange responseExchange() {
         return new DirectExchange(RESPONSE_EXCHANGE);
     }
 
     @Bean
     Queue responseQueue() {
-        return QueueBuilder.durable(RESPONSE_QUEUE)
-                .deadLetterExchange(RESPONSE_EXCHANGE)
-                .deadLetterRoutingKey(DELAY_QUEUE)
-                .build();
+        return new Queue(RESPONSE_QUEUE);
     }
 
     @Bean
     Queue delayQueue() {
-        return new Queue(DELAY_QUEUE);
+        return QueueBuilder.durable(DELAY_QUEUE)
+                .deadLetterExchange(RESPONSE_EXCHANGE)
+                .deadLetterRoutingKey(RESPONSE_ROUTING_KEY)
+                .build();
     }
 
     @Bean
-    Binding primaryBinding(Queue responseQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(responseQueue).to(exchange).with(RESPONSE_ROUTING_KEY);
+    Binding primaryBinding(Queue responseQueue, DirectExchange responseExchange) {
+        return BindingBuilder.bind(responseQueue).to(responseExchange).with(RESPONSE_ROUTING_KEY);
     }
 
     @Bean
-    Binding parkingBinding(Queue delayQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(delayQueue).to(exchange).with(DELAY_QUEUE);
+    Binding parkingBinding(Queue delayQueue, DirectExchange responseExchange) {
+        return BindingBuilder.bind(delayQueue).to(responseExchange).with(DELAY_QUEUE);
     }
 }

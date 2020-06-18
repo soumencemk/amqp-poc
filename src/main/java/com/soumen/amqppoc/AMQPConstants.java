@@ -8,6 +8,6 @@ public interface AMQPConstants {
 
     String RESPONSE_QUEUE = "responseQueue";
     String RESPONSE_EXCHANGE = "responseExchange";
-    String DELAY_QUEUE = RESPONSE_QUEUE + ".delay";
+    String DELAY_QUEUE = "delayQueue";
     String RESPONSE_ROUTING_KEY = "response.routing.key";
 }
